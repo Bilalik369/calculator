@@ -76,24 +76,24 @@ let calculator = new Calculator();
 function askForOperation() {
     calculator.menu();
     
-    r1.question('Choisissez une opération (1-8): ', (choice) => {
+    rl.question('Choisissez une opération (1-8): ', (choice) => {
         if (choice === '8') {
             console.log('Au revoir!');
-            r1.close();
+            rl.close();
             return;
         }
 
-        r1.question('Entrez le premier nombre: ', (input1) => {
+        rl.question('Entrez le premier nombre: ', (input1) => {
             let num1;
             try {
                 num1 = calculator.validateInput(input1); 
             } catch (error) {
                 console.log(error.message);
-                return askForOperation();  // إ
+                return askForOperation();  
             }
 
             if (choice !== '6' && choice !== '7') {  // Pour ces opérations, nous avons besoin de deux nombres
-                r1.question('Entrez le deuxième nombre: ', (input2) => {
+                rl.question('Entrez le deuxième nombre: ', (input2) => {
                     let num2;
                     try {
                         num2 = calculator.validateInput(input2); 
@@ -101,4 +101,63 @@ function askForOperation() {
                         console.log(error.message);
                         return askForOperation();
                     }
-                    
+                    let result;
+                    try {
+                        switch (choice) {
+                            case '1':  
+                                result = calculator.add(num1, num2);
+                                console.log(`Résultat: ${num1} + ${num2} = ${result}`);
+                                break;
+
+                            case '2':  
+                                result = calculator.subtract(num1, num2);
+                                console.log(`Résultat: ${num1} - ${num2} = ${result}`);
+                                break;
+
+                            case '3':  
+                                result = calculator.multiply(num1, num2);
+                                console.log(`Résultat: ${num1} * ${num2} = ${result}`);
+                                break;
+
+                            case '4':  
+                                result = calculator.divide(num1, num2);
+                                console.log(`Résultat: ${num1} / ${num2} = ${result}`);
+                                break;
+
+                            case '5':  
+                                result = calculator.power(num1, num2);
+                                console.log(`Résultat: ${num1} ^ ${num2} = ${result}`);
+                                break;
+
+                            default:
+                                console.log('Choix invalide, essayez à nouveau.');
+                                break;
+                        }
+                    } catch (error) {
+                        console.log(error.message);  
+                    }
+
+                    askForOperation();  
+                });
+            } else {  
+                let result;
+                try {
+                    if (choice === '6') {
+                        result = calculator.sqrt(num1);
+                        console.log(`Résultat: √${num1} = ${result}`);
+                    } else if (choice === '7') {
+                        result = calculator.factorial(num1);
+                        console.log(`Résultat: ${num1}! = ${result}`);
+                    }
+                } catch (error) {
+                    console.log(error.message);
+                }
+
+                askForOperation();
+            }
+        });
+    });
+}
+
+
+askForOperation();
