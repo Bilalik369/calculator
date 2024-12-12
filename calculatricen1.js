@@ -68,3 +68,37 @@ class Calculator {
         console.log("8. Quitter");
     }
 }
+
+
+let calculator = new Calculator();
+
+
+function askForOperation() {
+    calculator.menu();
+    
+    r1.question('Choisissez une opération (1-8): ', (choice) => {
+        if (choice === '8') {
+            console.log('Au revoir!');
+            r1.close();
+            return;
+        }
+
+        r1.question('Entrez le premier nombre: ', (input1) => {
+            let num1;
+            try {
+                num1 = calculator.validateInput(input1); 
+            } catch (error) {
+                console.log(error.message);
+                return askForOperation();  // إ
+            }
+
+            if (choice !== '6' && choice !== '7') {  // Pour ces opérations, nous avons besoin de deux nombres
+                r1.question('Entrez le deuxième nombre: ', (input2) => {
+                    let num2;
+                    try {
+                        num2 = calculator.validateInput(input2); 
+                    } catch (error) {
+                        console.log(error.message);
+                        return askForOperation();
+                    }
+                    
